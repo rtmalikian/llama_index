@@ -269,6 +269,10 @@ class MetadataAwareTextSplitter(TextSplitter):
 
     def _get_metadata_str(self, node: BaseNode) -> str:
         """Helper function to get the proper metadata str for splitting."""
+        if not self.include_metadata:
+            # when metadata is disabled, it must not consume splitter budget
+            return ""
+
         embed_metadata_str = node.get_metadata_str(mode=MetadataMode.EMBED)
         llm_metadata_str = node.get_metadata_str(mode=MetadataMode.LLM)
 
